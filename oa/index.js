@@ -61,7 +61,7 @@ function testConfig(url) {
 			}
 			if (conf && conf.homePage) {
 				window.localStorage.setItem(KEY_CONF_URL, url);
-				location.href = url;
+				location.href = conf.homePage;
 			} else {
 				showConfig('配置内容错误');
 			}

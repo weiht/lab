@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd
+	">
+
+<alias name="jspPageRenderer" alias="pageRenderer"/>
+<bean id="propsPlaceholderConf" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	<property name="locations"><list>
+		<value>classpath:*.properties</value>
+		<value>/WEB-INF/config.properties</value>
+	</list></property>
+</bean>
+
+<util:list id="paramProviderCandidates">
+	<bean class="com.hyperats.settings.CascadingServiceCandidate">
+		<property name="zIndex" value="0"></property>
+		<property name="service" ref="classpathPropertiesParamProvider"></property>
+	</bean>
+	<bean class="com.hyperats.settings.CascadingServiceCandidate">
+		<property name="zIndex" value="5"></property>
+		<property name="service">
+			<bean class="com.hyperats.settings.xml.ResourceXmlParamProvider"
+				init-method="init"></bean>
+		</property>
+	</bean>
+	<bean class="com.hyperats.settings.CascadingServiceCandidate">
+		<property name="zIndex" value="10"></property>
+		<property name="service">
+			<bean class="com.hyperats.settings.prop.SystemPropertiesParamProvider"
+				init-method="init"></bean>
+		</property>
+	</bean>
+	<bean class="com.hyperats.settings.CascadingServiceCandidate">
+		<property name="zIndex" value="65500"></property>
+		<property name="service" ref="bdfParamProvider"></property>
+	</bean>
+</util:list>
+
+<bean name="jspServicesMapping" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+	<property name="targetObject" ref="jspPageRenderer"/>
+	<property name="targetMethod" value="addServiceBeans"/>
+	<property name="arguments">
+		<list>
+			<map>
+				<entry key="paramService" value-ref="paramService"></entry>
+			</map>
+		</list>
+	</property>
+</bean>
+
+</beans>

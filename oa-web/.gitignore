@@ -6,3 +6,5 @@
 /*/.settings/
 /target
 /*/target
+/webapp/src/main/webapp/WEB-INF/web.xml
+/webapp/src/main/webapp/WEB-INF/config.properties
