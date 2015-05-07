@@ -1,0 +1,11 @@
+{
+  "name": "OA",
+  "description": "Web office automation",
+  "version": "0.1",
+  "main": "index.html",
+  "window": {
+  	/*"toolbar": false,*/
+    "width": 800,
+    "height": 450
+  }
+}
